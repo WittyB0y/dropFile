@@ -1,1 +1,0 @@
-SECRET_KEY = '345@fghgADD354$%%^fgfhgf--fgfhgfADFFCS:K%45455rt5ASD@#$vbnhngvffh-77-bnbAFF@'
