@@ -1,0 +1,25 @@
+{% load static %}
+{% for x in post %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link type="text/css" href="{% static 'loadFile/css/style.css' %}" rel="stylesheet"/>
+     <link type="text/css" href="{% static 'loadFile/css/lawContent.css' %}" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <title>drop.me | {{x.name}}</title>
+</head>
+<body>
+<div class="backGraund">
+    <div class="dataHandler">
+        <h1>Тип: {{x.content_type}}</h1>
+        <h1>Просмотров: {{x.seen}}</h1>
+        <h1>Скачиваний: {{x.downloded}}</h1>
+        <h1>Дата загрузки: {{x.created_at}}</h1>
+        <div class="styleBtn"><a class="btn-download" target="_blank" href="http://192.168.0.109:8000/download/{{x.slug}}/">Скачать</a></div>
+        {% endfor %}
+    </div>
+</div>
+{% block content %}{% endblock %}
+{% block main %}{% endblock %}
+</body>
+</html>

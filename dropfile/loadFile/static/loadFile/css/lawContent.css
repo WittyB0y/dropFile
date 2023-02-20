@@ -1,0 +1,15 @@
+.lawContentImg {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: 0;
+}
+
+.lawContentImg img {
+    width: 10vw;
+    aspect-ratio: 16/9;
+}
+
+.lawContentImg a{
+    display: block;
+}

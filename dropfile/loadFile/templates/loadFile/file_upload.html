@@ -1,0 +1,26 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Файлообменник</title>
+    <link rel="stylesheet" href="{% static 'loadFile/css/loadPage.css' %}">
+</head>
+<body>
+<div class="loadBackGround">
+    <div class="contentLoad">
+        <div class="logo"><h1>Файлообменник</h1></div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="loWin">
+                <p>Выберите файл:</p>
+                <label class="plus" for="file"><img src="{% static 'loadFile/images/image.png' %}"></label>
+                <input type="file" class="chooseFileBtn" name="file" id="file">
+                <input type="submit" class="UpLBtn" value="Загрузить">
+            </div>
+        </form>
+        <div class="lastUpload">Последняя загрузка: {{lastdata.updated_at}}</div>
+    </div>
+</div>
+</body>
+</html>

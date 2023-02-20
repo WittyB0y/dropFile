@@ -1,0 +1,111 @@
+.loadBackGround {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    color: white;
+    /*background-color: #5E5694;*/
+    background: rgb(131, 58, 180);
+    background: linear-gradient(90deg, rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(246, 160, 40, 1) 100%);
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+body {
+    overflow: hidden;
+}
+
+.logo {
+    padding: .3rem 0;
+    width: 100%;
+    background-color: rgba(114, 101, 101, 0.43);
+    border-radius: 1rem;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.contentLoad {
+    width: 70vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.loWin {
+    justify-content: space-evenly;
+    width: 100%;
+    background-color: rgba(114, 101, 101, 0.43);
+    height: 40vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 1rem;
+}
+
+.chooseFileBtn {
+    font-size: 0;
+    display: none;
+}
+
+.chooseFileBtn::file-selector-button {
+    display: none;
+
+}
+
+.plus {
+    user-select: none;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 15%;
+    font-size: 6vh;
+    font-weight: 800;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: #303030;
+    cursor: pointer;
+}
+
+.plus img{
+    width: 40%;
+    aspect-ratio: 1/1;
+}
+
+.UpLBtn {
+    will-change: transform;
+    color: white;
+    background-color: #303030;
+    padding: .5rem 1rem;
+    border-radius: 1rem;
+    border: none;
+    font-size: 3vh;
+}
+
+.UpLBtn:hover {
+    will-change: transform;
+    transition: .3s;
+    border-radius: 1rem 0;
+    transform: scale(1.1);
+}
+
+.loWin p {
+    margin: 0;
+    font-size: 4vh;
+}
+
+.lastUpload {
+    width: 100%;
+    border-radius: 1rem;
+    background-color: rgba(114, 101, 101, .43);
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+    font-size: 3vh;
+}

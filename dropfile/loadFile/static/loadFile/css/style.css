@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+html {
+    padding: 0;
+}
+
+body {
+    overflow: hidden;
+    padding: 0;
+}
+
+.backGraund {
+    top: 0;
+    left: 0;
+    position: absolute;
+    background: rgb(131,58,180);
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(246,160,40,1) 100%);width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dataHandler {
+    max-height: 70vh;
+    max-width: 70vw;
+    font-family: 'Russo One', sans-serif;
+    color: white;
+    background-color: rgba(114, 101, 101, 0.43);
+    border-radius: 1rem;
+    padding: 1rem;
+    font-size: 2vh;
+}
+
+.styleBtn {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.btn-download {
+    background-color: #5b80b2;
+    padding: .5rem 1rem;
+    border-radius: 1rem;
+    text-decoration: none;
+    color: white;
+}
+
+.btn-download:hover{
+    border-radius: 1rem .2rem;
+    transition: .3s;
+}
