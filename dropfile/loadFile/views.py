@@ -6,9 +6,10 @@ from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 import uuid
 from django.views.static import serve
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, Http404
+from django.views.decorators.csrf import csrf_protect
 
-
+@csrf_protect
 def load_data(request):
     db = files.objects.latest('id')
     if request.method == 'POST' and request.FILES:
@@ -42,7 +43,9 @@ class loadFile(ListView):
         return context
 
     def get_queryset(self, *args, **kwargs):
-        files.objects.filter(slug=self.kwargs['slug']).update(seen=F('seen') + 1)
+        data = files.objects.filter(slug=self.kwargs['slug']).update(seen=F('seen') + 1)
+        if data < 1:
+            raise Http404
         return files.objects.filter(slug=self.kwargs['slug'])
 
 
@@ -53,4 +56,8 @@ def download_file(request, slugy):
         file_path = uploaded_file.file.path
         return serve(request, os.path.basename(file_path), os.path.dirname(file_path))
     except files.DoesNotExist:
-        return HttpResponseNotFound("File not found")
+        raise Http404
+
+
+def error_404_view(request, exception):
+    return render(request, 'loadFile/404.html', status=404)
