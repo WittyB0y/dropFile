@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from .views import *
 
 urlpatterns = [
-    path('', load_data, name='home'),
+    path('', load_data),
     path('<slug:slug>/', loadFile.as_view()),
     path('download/<slug:slugy>/', download_file)
 ]
