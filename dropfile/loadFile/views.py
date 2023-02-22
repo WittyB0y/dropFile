@@ -6,8 +6,9 @@ from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 import uuid
 from django.views.static import serve
-from django.http import HttpResponseNotFound, Http404
+from django.http import Http404
 from django.views.decorators.csrf import csrf_protect
+
 
 @csrf_protect
 def load_data(request):
@@ -30,7 +31,7 @@ def load_data(request):
         )
         return redirect(f'/{uploaded_file_obj.slug}')
 
-    return render(request, 'loadFile/file_upload.html', {'lastdata': db})
+    return render(request, 'loadFile/mainpage_end.html', {'lastdata': db})
 
 
 class loadFile(ListView):

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Файлообменник</title>
     <link rel="stylesheet" href="{% static 'loadFile/css/loadPage.css' %}">
+    <link type="text/css" href="{% static 'loadFile/css/lawContent.css' %}" rel="stylesheet"/>
 </head>
 <body>
 <div class="loadBackGround">
@@ -22,5 +23,7 @@
         <div class="lastUpload">Последняя загрузка: {{lastdata.updated_at}}</div>
     </div>
 </div>
+{% block content %}
+{% endblock %}
 </body>
 </html>
