@@ -15,7 +15,7 @@
         <h1>Просмотров: {{x.seen}}</h1>
         <h1>Скачиваний: {{x.downloded}}</h1>
         <h1>Дата загрузки: {{x.created_at}}</h1>
-        <div class="styleBtn"><a class="btn-download" target="_blank" href="http://192.168.0.109:8000/download/{{x.slug}}/">Скачать</a></div>
+        <div class="styleBtn"><a class="btn-download" target="_blank" href="{% url 'home' %}download/{{x.slug}}/">Скачать</a></div>
         {% endfor %}
     </div>
 </div>
