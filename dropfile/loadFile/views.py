@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_protect
 @csrf_protect
 def load_data(request):
     db = files.objects.latest('id')
-    if request.method == 'POST' and request.FILES:
+    if request.method == 'POST' and request.FILES and request.user.is_authenticated:
         uploaded_file = request.FILES['file']
         fs = FileSystemStorage()
         slug = uuid.uuid4()
