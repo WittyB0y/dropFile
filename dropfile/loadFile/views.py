@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_protect
 
 @csrf_protect
 def load_data(request):
-    db = files.objects.latest('id')
+    # db = files.objects.latest('id')
     if request.method == 'POST' and request.FILES and request.user.is_authenticated:
         uploaded_file = request.FILES['file']
         fs = FileSystemStorage()
@@ -28,10 +28,11 @@ def load_data(request):
             configdata=from_user['HTTP_USER_AGENT'],
             ipdata=from_user['REMOTE_ADDR'],
             slug=slug,
+            userid=request.user,
         )
         return redirect(f'/{uploaded_file_obj.slug}')
-
-    return render(request, 'loadFile/mainpage_end.html', {'lastdata': db})
+    return render(request, 'loadFile/mainpage_end.html')
+    # return render(request, 'loadFile/mainpage_end.html', {'lastdata': db})
 
 
 class loadFile(ListView):

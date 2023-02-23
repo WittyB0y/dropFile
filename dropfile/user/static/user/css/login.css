@@ -1,21 +1,78 @@
-.form-input {
-    width: 300px;
-    font-size: 16px;
+body {
+    align-items: center;
+    display: grid;
+    place-items: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: rgb(131,58,180);
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(246,160,40,1) 100%);width: 100vw;
 }
 
-.form-label {
-    display: inline-block;
-    min-width: 150px;
-    vertical-align: top;
+.loginCard {
+    background-color: rgba(114, 101, 101, 0.43);
+    border-radius: 1rem;
+    font-size: 2.5vh;
+    width: 35vw;
+    aspect-ratio: 3/2;
 }
 
-.form-error ul {
-    list-style: none;
-    padding: 0;
-    color: #CC0000;
+.loginCard form {
+    grid-template-areas:
+    'mainContent'
+    'button'
+;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    grid-template-rows: 80% 20%;
 }
 
-.form-button {
-    min-width: 200px;
-    font-size: 16px;
+
+.btnLogin{
+    grid-area: button;
+    width: 100%;
+    bottom: 0;
+    height: 100%;
+}
+
+.btnLogin button {
+    background-color: #303030;
+    border: none;
+    width: 100%;
+    display: block;
+    border-radius: 0 0 1rem 1rem;
+    /*padding: .5rem 0;*/
+    font-size: 2.5vh;
+    color: #FFFFFF;
+    height: 100%;
+}
+
+
+.login-form h4 {
+    margin: 0;
+    text-align: center;
+}
+
+.inputter {
+    margin: .75rem 1rem;
+}
+
+.form-input{
+
+}
+
+
+.login-form{
+    grid-area: mainContent;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+    'Auth'
+    'Log Loginp'
+    'Pass Passinp';
+    grid-template-rows: 10% 25% 45%;
+
 }
