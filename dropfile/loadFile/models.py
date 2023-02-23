@@ -1,5 +1,8 @@
 from django.db import models
 
+from django.contrib.auth.models import User
+from dropfile import settings
+
 
 class files(models.Model):
     slug = models.SlugField(null=False, unique=True)
@@ -12,3 +15,4 @@ class files(models.Model):
     file = models.FileField(upload_to='media/')
     name = models.CharField(max_length=255)
     content_type = models.CharField(max_length=255)
+    userid = models.ForeignKey(User, related_name="posts", on_delete=models.CASCADE)
