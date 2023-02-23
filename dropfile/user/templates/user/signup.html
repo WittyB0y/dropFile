@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link type="text/css" href="{% static 'user/css/signup.css' %}" rel="stylesheet"/>
+</head>
+<body>
+<h1>Регистрация</h1>
+{% block content %}
+<div class="regfiled">
+<form method="post">
+    {% csrf_token %}
+{% for f in form %}
+<p>
+    <label class="form-label" for="{{ f.id_for_label }}">{{f.label}}:
+    </label>{{ f }}
+</p>
+<div class="form-error">{{ f.errors }}</div>
+{% endfor %}
+
+    <button type="submit">Регистрация</button>
+</form>
+</div>
+{% endblock %}
+</body>
+</html>

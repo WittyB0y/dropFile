@@ -1,0 +1,20 @@
+body {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    background: rgb(131,58,180);
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(246,160,40,1) 100%);width: 100vw;
+}
+
+.regfiled{
+    width: 25%;
+    border-radius: 1rem;
+    background-color: rgba(114, 101, 101, .43);
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+    font-size: 3vh;
+}

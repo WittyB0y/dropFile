@@ -1,0 +1,82 @@
+/* menu bar */
+
+.btncont {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: .5rem 1rem;
+    background-color: #303030;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.interbtn {
+    font-size: 1.9vh;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-weight: bold;
+    margin: 0 1rem;
+}
+
+.interbtn:hover{
+    text-decoration: overline #e35f5f;
+    color: #cccccc;
+    transition: .3s;
+}
+
+/*Drop Down btn */
+.dropBtn {
+    border: none;
+    color: #FFFFFF;
+    font-size: 1.9vh;
+    padding: .45rem;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.dropDown{
+    position: relative;
+    display: inline-block;
+}
+
+.dropDownContent {
+    position: absolute;
+    display: none;
+    background-color: #303030;
+    width: initial;
+    z-index: 1;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0, .2);
+}
+
+.dropDownContent a {
+    color: #FFFFFF;
+    padding: .5rem 1rem;
+    text-decoration: none;
+    display: block;
+}
+
+.dropDownContent a:hover {
+    color: #cccccc;
+}
+
+.dropDownContent a:hover::before {
+    content: '';
+    position: relative;
+    border-left: 2px solid #e35f5f;
+    margin-right: .45rem;
+}
+
+.dropDown:hover .dropDownContent{
+    display: block;
+}
+
+.dropDown:hover .dropBtn {
+    text-decoration: overline #e35f5f;
+}
+
+.userPhoto {
+    height: 2.5rem;
+    border-radius: 1rem;
+    margin-right: 0.7rem;
+}

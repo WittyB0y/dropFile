@@ -6,9 +6,32 @@
     <title>Файлообменник</title>
     <link rel="stylesheet" href="{% static 'loadFile/css/loadPage.css' %}">
     <link type="text/css" href="{% static 'loadFile/css/lawContent.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'loadFile/css/menuBar.css' %}">
 </head>
 <body>
 <div class="loadBackGround">
+    <div class="btncont">
+        {% if request.user.is_authenticated %}
+        <img class="userPhoto" src="media/catty.png" alt="photo">
+        <div class="dropDown">
+            <button class="dropBtn">{{user.username}}</button>
+            <div class="dropDownContent">
+                <a href="#">Профиль</a>
+                <a href="#">Мои файлы</a>
+                <a href="#">Загрузки</a>
+                <a href="#">Приглашения</a>
+                <a href="#">Настройки</a>
+            </div>
+        </div>
+        <strong>|</strong>
+        <a class="interbtn" href="/logout">Выйти</a>
+        {% else %}
+        <a class="interbtn" href="/login">Вход</a>
+        <strong>|</strong>
+        <a class="interbtn" href="/signup">Регистрация</a>
+        {% endif %}
+    </div>
+
     <div class="contentLoad">
         <div class="logo"><h1>Файлообменник</h1></div>
         <form method="post" enctype="multipart/form-data">
