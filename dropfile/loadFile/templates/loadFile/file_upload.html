@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Файлообменник</title>
-    <link rel="stylesheet" href="{% static 'loadFile/css/loadPage.css' %}">
+    <link rel="stylesheet" href="{% static 'loadFile/css/loadpage.css' %}">
     <link type="text/css" href="{% static 'loadFile/css/lawContent.css' %}" rel="stylesheet"/>
     <link rel="stylesheet" href="{% static 'loadFile/css/menuBar.css' %}">
 </head>
@@ -34,6 +34,9 @@
 
     <div class="contentLoad">
         <div class="logo"><h1>Файлообменник</h1></div>
+        {% if not request.user.is_authenticated %}
+        <div class="logo msg"><h3> ⚠️ Для загрузки файла требуется авторизация ⚠️</h3></div>
+        {% endif %}
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="loWin">

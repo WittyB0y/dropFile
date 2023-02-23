@@ -25,7 +25,7 @@ body {
     background-color: rgba(114, 101, 101, 0.43);
     border-radius: 1rem;
     text-align: center;
-    margin: 1rem 0;
+    margin-top: 2rem;
 }
 
 .contentLoad {
@@ -45,6 +45,7 @@ body {
     align-items: center;
     flex-direction: column;
     border-radius: 1rem;
+    margin-top: 1rem;
 }
 
 .chooseFileBtn {
@@ -108,4 +109,8 @@ body {
     align-items: center;
     padding: 1rem 0;
     font-size: 3vh;
+}
+
+.msg {
+    margin: 1rem 0;
 }
