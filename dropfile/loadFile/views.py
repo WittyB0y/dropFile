@@ -6,13 +6,13 @@ from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 import uuid
 from django.views.static import serve
-from django.http import Http404
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_protect
 
 
 @csrf_protect
 def load_data(request):
-    # db = files.objects.latest('id')
+    db = files.objects.latest('id')
     if request.method == 'POST' and request.FILES and request.user.is_authenticated:
         uploaded_file = request.FILES['file']
         fs = FileSystemStorage()
@@ -31,8 +31,7 @@ def load_data(request):
             userid=request.user,
         )
         return redirect(f'/{uploaded_file_obj.slug}')
-    return render(request, 'loadFile/mainpage_end.html')
-    # return render(request, 'loadFile/mainpage_end.html', {'lastdata': db})
+    return render(request, 'loadFile/mainpage_end.html', {'lastdata': db})
 
 
 class loadFile(ListView):
@@ -59,6 +58,20 @@ def download_file(request, slugy):
         return serve(request, os.path.basename(file_path), os.path.dirname(file_path))
     except files.DoesNotExist:
         raise Http404
+
+
+class myfiles(ListView):
+    model = files
+    context_object_name = 'posts'
+    template_name = 'loadFile/myfiles.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return files.objects.filter(userid=self.request.user)
 
 
 def error_404_view(request, exception):

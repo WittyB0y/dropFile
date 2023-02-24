@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for x in posts %}
+<br>{{x.name}}
+<br>{{x.seen}}
+<br>{{x.downloaded}}
+<br>{{x.created_at}}
+<br> <a href="{{x.slug}}"></a>
+{% endfor %}
+</body>
+</html>
