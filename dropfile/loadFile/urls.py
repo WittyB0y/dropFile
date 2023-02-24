@@ -5,8 +5,9 @@ from .views import *
 
 urlpatterns = [
     path('', load_data, name='home'),
+    path('myfiles/', myfiles.as_view()),
     path('<slug:slug>/', loadFile.as_view()),
-    path('download/<slug:slugy>/', download_file)
+    path('download/<slug:slugy>/', download_file),
 ]
 
 if settings.DEBUG:
