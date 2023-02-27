@@ -8,6 +8,7 @@ import uuid
 from django.views.static import serve
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_protect
+from user.models import photo
 
 
 @csrf_protect
