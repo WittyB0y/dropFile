@@ -3,11 +3,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-  {% block content %}
-  {% endblock %}
+    <title>{{title}}</title>
+    {% block css_content %}
+    {% endblock %}
 </head>
 <body>
+<div class="loadBackGround">
+<div class="btncont">
+        {% if request.user.is_authenticated %}
+        <img class="userPhoto" src="{{photo.photo}}" alt="photo">
+        <div class="dropDown">
+            <button class="dropBtn">{{user.username}}</button>
+            <div class="dropDownContent">
+                <a href="#">Профиль</a>
+                <a href="/myfiles">Мои файлы</a>
+                <a href="#">Загрузки</a>
+                <a href="#">Приглашения</a>
+                <a href="#">Настройки</a>
+            </div>
+        </div>
+        <strong>|</strong>
+        <a class="interbtn" href="/logout">Выйти</a>
+        {% else %}
+        <a class="interbtn" href="/login">Вход</a>
+        <strong>|</strong>
+        <a class="interbtn" href="/signup">Регистрация</a>
+        {% endif %}
+    </div>
 
+{% block content %}
+{% endblock %}
+</div>
+<div class="lawContentImg">
+    <a href="https://github.com/WittyB0y" target="_blank"><img src="{% static 'loadFile/images/gitHub.png' %}"></a>
+</div>
 </body>
 </html>

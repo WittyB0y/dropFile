@@ -1,0 +1,5 @@
+from .views import *
+
+urlpatterns = [
+
+]

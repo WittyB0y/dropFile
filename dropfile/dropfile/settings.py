@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'loadFile.apps.LoadfileConfig',
     'user.apps.UserConfig',
+    'myloads.apps.MyloadsConfig',
 ]
 
 MIDDLEWARE = [
