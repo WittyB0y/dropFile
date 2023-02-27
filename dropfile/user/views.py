@@ -1,22 +1,26 @@
 from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.views import LoginView
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView
 
 from user.forms import RegisterUserForm, LoginUserForm
 
 
-class RegisterUser(CreateView):
+class ProfileForm:
+    pass
+
+
+class RegisterUser(UserPassesTestMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'user/signup.html'
+    second_form_class = ProfileForm
+    permission_denied_message = ("You are already registered!")
 
-    # success_url = reverse_lazy('login')
-
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     print(context)
-    #     return context
+    def test_func(self):
+        return self.request.user.is_anonymous
 
     def form_valid(self, form):
         user = form.save()
@@ -27,6 +31,7 @@ class RegisterUser(CreateView):
 class LoginUser(LoginView):
     form_class = LoginUserForm
     template_name = 'user/login.html'
+    redirect_authenticated_user = True
 
     # def get_context_data(self, *, object_list=None, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -35,5 +40,3 @@ class LoginUser(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('home')
-
-

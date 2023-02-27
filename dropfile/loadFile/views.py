@@ -6,33 +6,40 @@ from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 import uuid
 from django.views.static import serve
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import Http404
 from django.views.decorators.csrf import csrf_protect
-from user.models import photo
+from user.models import photo as bd_photo
 
 
 @csrf_protect
 def load_data(request):
     db = files.objects.latest('id')
-    if request.method == 'POST' and request.FILES and request.user.is_authenticated:
-        uploaded_file = request.FILES['file']
-        fs = FileSystemStorage()
-        slug = uuid.uuid4()
-        print(uploaded_file)
-        data_type = str(uploaded_file)[str(uploaded_file).rfind('.'):]
-        filename = fs.save(f'{slug}{data_type}', uploaded_file)
-        from_user = request.META
-        uploaded_file_obj = files.objects.create(
-            file=filename,
-            name=uploaded_file.name,
-            content_type=uploaded_file.content_type,
-            configdata=from_user['HTTP_USER_AGENT'],
-            ipdata=from_user['REMOTE_ADDR'],
-            slug=slug,
-            userid=request.user,
-        )
-        return redirect(f'/{uploaded_file_obj.slug}')
-    return render(request, 'loadFile/mainpage_end.html', {'lastdata': db})
+    photo = ''
+    if request.user.is_authenticated:
+        try:
+            photo = bd_photo.objects.get(userid=request.user)
+            print(photo.photo)
+        except bd_photo.DoesNotExist:
+            photo = None
+        if request.method == 'POST' and request.FILES:
+            uploaded_file = request.FILES['file']
+            fs = FileSystemStorage()
+            slug = uuid.uuid4()
+            print(uploaded_file)
+            data_type = str(uploaded_file)[str(uploaded_file).rfind('.'):]
+            filename = fs.save(f'{slug}{data_type}', uploaded_file)
+            from_user = request.META
+            uploaded_file_obj = files.objects.create(
+                file=filename,
+                name=uploaded_file.name,
+                content_type=uploaded_file.content_type,
+                configdata=from_user['HTTP_USER_AGENT'],
+                ipdata=from_user['REMOTE_ADDR'],
+                slug=slug,
+                userid=request.user,
+            )
+            return redirect(f'/{uploaded_file_obj.slug}')
+    return render(request, 'loadFile/file_upload.html', {'lastdata': db, 'title': 'Файлообменник | Главная', 'photo':photo})
 
 
 class loadFile(ListView):
