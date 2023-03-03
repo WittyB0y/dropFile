@@ -18,7 +18,6 @@ def load_data(request):
     if request.user.is_authenticated:
         try:
             photo = bd_photo.objects.get(userid=request.user)
-            print(photo.photo)
         except bd_photo.DoesNotExist:
             photo = None
         if request.method == 'POST' and request.FILES:

@@ -1,0 +1,195 @@
+body{
+    --textColor: #dadada;
+    --darkBg: rgba(114, 101, 101, 0.43);
+  
+    overflow: hidden;
+    margin: 0;
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(246,160,40,1) 100%);
+  }
+  
+  /* Full page of site */
+  .page{
+    width: 100vw;
+    height: 100vh;
+  
+    display: grid;
+    grid-template-areas: 
+    'header'
+    'content';
+    grid-template-rows: 3rem calc(100% - 3rem);
+    gap: 1rem;
+  }
+  
+  .header{
+    height: 100%;
+    text-align: right;
+    grid-area: header;
+    background-color: #303030;
+    color: var(--textColor);
+  }
+  
+  /* Content about user's files */
+  .content{
+    grid-area: content;
+    display: grid;
+    grid-template-areas: 
+    'MyFiles'
+    'Loads';
+    grid-template-rows: 15% 75%;
+    grid-auto-rows: 5rem;
+    gap: 2rem;
+    justify-content: center;
+  
+    /* border: 1px solid #fff; */
+  }
+  
+  /* My files customize */
+  .my-files{
+    grid-area: MyFiles;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    border-radius: 1rem;
+    background-color: var(--darkBg);
+    color: var(--textColor);
+  
+    padding: .5rem 0;
+    min-height: 5rem;
+    width: 80vw;
+  }
+  
+  .my-files *{
+    margin: 0;
+  }
+  
+  .my-files hr{
+    width: 60%;
+    border: 2px solid #303030;
+    border-radius: 50%;
+    margin: .3rem 0;
+  }
+  
+  .my-files__logo{
+    width: 100%;
+    height: 100%;
+  
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .my-files__content{
+    width: 100%;
+    height: 100%;
+  
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  
+  /* Loads customize */
+  .loads{
+    scroll-behavior: smooth;
+    grid-area: Loads;
+    border-radius: 1rem;
+    background-color: var(--darkBg);
+    overflow-y: auto;
+  }
+  
+  .loads::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  .loads::-webkit-scrollbar-track {
+    border-radius: 1rem;
+    left: 1px;
+    background: #303030;
+  }
+  
+  /* Handle */
+  .loads::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background: #248a8a;
+  }
+  
+  /* Handle on hover */
+  .loads::-webkit-scrollbar-thumb:hover {
+    background: #046e6e;
+  }
+  
+  .load{
+    margin: 1rem;
+    border-radius: 1rem;
+    border: 2px solid #0a0a0a;
+    background-color: #5c5c5c;
+    color: var(--textColor);
+  
+    display: grid;
+    grid-template-columns: 60% 40%;
+  }
+  
+  /* Left part of massege */
+  .load__left{
+    border-radius: .9rem;
+    background-color: #303030;
+    color: var(--textColor);
+  
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .load__left h3{
+    margin: .5rem;
+  }
+  
+  
+  /* Right part of massege */
+  .load__right{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: .4rem 0;
+  }
+  
+  .load__right__input{
+    display: flex;
+    justify-content: center;
+    width: auto;
+  }
+  
+  .load__right__input *{
+    margin: 0 .4rem;
+  }
+  
+  
+  /* Buttons */
+  .load__right__btn{
+    border: none;
+    width: 50%;
+    padding: .5rem 0;
+    border-radius: 1rem;
+  
+    font-size: calc(2vw/1vh);
+    color: #fff;
+  }
+  
+  .load__right__btn:hover{
+    transition: .4s;
+    border-radius: 1rem 0;
+    cursor: pointer;
+  }
+  
+  .delete{
+    background-color: #9e0000;
+  }
+  .look{
+    background-color: #b3b000;
+  }
+  .download{
+    background-color: #009e35;
+  }
