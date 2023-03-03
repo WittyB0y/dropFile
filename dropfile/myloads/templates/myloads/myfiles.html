@@ -1,0 +1,84 @@
+{% extends "loadFile/base.html" %}
+{% load static %}
+{% block css_content %}
+<link rel="stylesheet" href="{% static 'loadFile/css/loadpage.css' %}">
+<link type="text/css" href="{% static 'loadFile/css/lawContent.css' %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static 'loadFile/css/menuBar.css' %}">
+<link rel="stylesheet" href="{% static 'myloads/css/myloads.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="page">
+
+      <div class="header">Вход / выход</div>
+
+      <div class="content">
+        <div class="my-files">
+          <div class="my-files__logo">
+            <h1>My files</h1>
+            <hr />
+          </div>
+
+          <div class="my-files__content">
+            <h3>Всего файлов: 81</h3>
+            <h3>Последняя загрузка: 27.02.23</h3>
+          </div>
+        </div>
+
+        <div class="loads">
+
+          <div class="load">
+            <div class="load__left">
+              <h3>Дата загрузки: 11.01.22</h3>
+              <h3>Просмотры: 13</h3>
+              <h3>Скачивания: 11</h3>
+              <h3>Тип данных: py/Python</h3>
+            </div>
+            <div class="load__right">
+              <div class="load__right__input">
+                <input type="checkbox" onchange="send()"> <p>Разрешить просмотр</p>
+              </div>
+              <button class="load__right__btn delete">Удалить</button>
+              <button class="load__right__btn look">Просмотреть</button>
+              <button class="load__right__btn download">Скачать</button>
+            </div>
+          </div>
+
+          <div class="load">
+            <div class="load__left">
+              <h3>Дата загрузки: 11.01.22</h3>
+              <h3>Просмотры: 13</h3>
+              <h3>Скачивания: 11</h3>
+              <h3>Тип данных: py/Python</h3>
+            </div>
+            <div class="load__right">
+              <div class="load__right__input">
+                <input type="checkbox" onchange="send()"> <p>Разрешить просмотр</p>
+              </div>
+              <button class="load__right__btn delete">Удалить</button>
+              <button class="load__right__btn look">Просмотреть</button>
+              <button class="load__right__btn download">Скачать</button>
+            </div>
+          </div>
+
+          <div class="load">
+            <div class="load__left">
+              <h3>Дата загрузки: 11.01.22</h3>
+              <h3>Просмотры: 13</h3>
+              <h3>Скачивания: 11</h3>
+              <h3>Тип данных: py/Python</h3>
+            </div>
+            <div class="load__right">
+              <div class="load__right__input">
+                <input type="checkbox" onchange="send()"> <p>Разрешить просмотр</p>
+              </div>
+              <button class="load__right__btn delete">Удалить</button>
+              <button class="load__right__btn look">Просмотреть</button>
+              <button class="load__right__btn download">Скачать</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <script src="kote.js"></script>
+{% endblock %}    
