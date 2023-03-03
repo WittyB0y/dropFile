@@ -19,63 +19,32 @@
           </div>
 
           <div class="my-files__content">
-            <h3>Всего файлов: 81</h3>
-            <h3>Последняя загрузка: 27.02.23</h3>
+            <h3>Всего файлов: {{count}}</h3>
+            <h3>Последняя загрузка: {{lst_file}}</h3>
+      
           </div>
         </div>
 
         <div class="loads">
-
+          {% for x in files %}
           <div class="load">
             <div class="load__left">
-              <h3>Дата загрузки: 11.01.22</h3>
-              <h3>Просмотры: 13</h3>
-              <h3>Скачивания: 11</h3>
-              <h3>Тип данных: py/Python</h3>
+              <h3>Дата загрузки: {{x.created_at}}</h3>
+              <h3>Просмотры: {{x.seen}}</h3>
+              <h3>Скачивания: {{x.downloded}}</h3>
+              <h3>Тип данных: {{x.content_type}}</h3>
             </div>
             <div class="load__right">
               <div class="load__right__input">
-                <input type="checkbox" onchange="send()"> <p>Разрешить просмотр</p>
+                <input type="checkbox" onchange="send()"> <p>Запретить просмотр</p>
               </div>
               <button class="load__right__btn delete">Удалить</button>
-              <button class="load__right__btn look">Просмотреть</button>
+              <button class="load__right__btn look" onclick="document.location='{% url 'home' %}{{x.slug}}'">Просмотреть</button>
               <button class="load__right__btn download">Скачать</button>
             </div>
           </div>
-
-          <div class="load">
-            <div class="load__left">
-              <h3>Дата загрузки: 11.01.22</h3>
-              <h3>Просмотры: 13</h3>
-              <h3>Скачивания: 11</h3>
-              <h3>Тип данных: py/Python</h3>
-            </div>
-            <div class="load__right">
-              <div class="load__right__input">
-                <input type="checkbox" onchange="send()"> <p>Разрешить просмотр</p>
-              </div>
-              <button class="load__right__btn delete">Удалить</button>
-              <button class="load__right__btn look">Просмотреть</button>
-              <button class="load__right__btn download">Скачать</button>
-            </div>
-          </div>
-
-          <div class="load">
-            <div class="load__left">
-              <h3>Дата загрузки: 11.01.22</h3>
-              <h3>Просмотры: 13</h3>
-              <h3>Скачивания: 11</h3>
-              <h3>Тип данных: py/Python</h3>
-            </div>
-            <div class="load__right">
-              <div class="load__right__input">
-                <input type="checkbox" onchange="send()"> <p>Разрешить просмотр</p>
-              </div>
-              <button class="load__right__btn delete">Удалить</button>
-              <button class="load__right__btn look">Просмотреть</button>
-              <button class="load__right__btn download">Скачать</button>
-            </div>
-          </div>
+          {% endfor %}
+          
 
         </div>
       </div>
