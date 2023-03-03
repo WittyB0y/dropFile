@@ -44,10 +44,12 @@ def load_data(request):
 class loadFile(ListView):
     model = files
     context_object_name = 'post'
-    template_name = 'loadFile/endpage.html'
+    template_name = 'loadFile/files_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['photo'] = bd_photo.objects.get(userid=self.request.user)
         return context
 
     def get_queryset(self, *args, **kwargs):
