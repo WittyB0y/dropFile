@@ -16,3 +16,4 @@ class files(models.Model):
     name = models.CharField(max_length=255)
     content_type = models.CharField(max_length=255)
     userid = models.ForeignKey(User, related_name="posts", on_delete=models.CASCADE)
+    access=models.BooleanField(default=False)
