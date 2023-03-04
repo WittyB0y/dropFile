@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'loadFile.apps.LoadfileConfig',
     'user.apps.UserConfig',
     'myloads.apps.MyloadsConfig',
+    'setting.apps.SettingConfig',
 ]
 
 MIDDLEWARE = [
