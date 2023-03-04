@@ -53,8 +53,10 @@ class loadFile(ListView):
         return context
 
     def get_queryset(self, *args, **kwargs):
-        data = files.objects.filter(slug=self.kwargs['slug'], access=False)
+        data = files.objects.filter(slug=self.kwargs['slug'])
         if len(data) < 1:
+            raise Http404
+        elif data[0].access == True and data[0].userid.id != self.request.user.id:
             raise Http404
         else:
             data.update(seen=F('seen') + 1)
