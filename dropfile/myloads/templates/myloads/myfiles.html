@@ -38,9 +38,9 @@
               <div class="load__right__input">
                 <input type="checkbox" onchange="send()"> <p>Запретить просмотр</p>
               </div>
-              <button class="load__right__btn delete">Удалить</button>
+              <button class="load__right__btn delete" onclick="document.location='{% url 'myFiles' %}delete/{{x.slug}}'">Удалить</button>
               <button class="load__right__btn look" onclick="document.location='{% url 'home' %}{{x.slug}}'">Просмотреть</button>
-              <button class="load__right__btn download">Скачать</button>
+              <button class="load__right__btn download" onclick="document.location='{% url 'home' %}download/{{x.slug}}'">Скачать</button>
             </div>
           </div>
           {% endfor %}
