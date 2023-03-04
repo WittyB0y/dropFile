@@ -36,7 +36,7 @@
             </div>
             <div class="load__right">
               <div class="load__right__input">
-                <input type="checkbox" onchange="send()"> <p>Запретить просмотр</p>
+                <input type="checkbox" {% if x.access %} checked="true" {% endif %} onclick="document.location='{% url 'myFiles' %}changeaccsess/{{x.slug}}/{{x.access}}'"><p>Запретить просмотр</p>
               </div>
               <button class="load__right__btn delete" onclick="document.location='{% url 'myFiles' %}delete/{{x.slug}}'">Удалить</button>
               <button class="load__right__btn look" onclick="document.location='{% url 'home' %}{{x.slug}}'">Просмотреть</button>
@@ -49,5 +49,4 @@
         </div>
       </div>
     </div>
-    <script src="kote.js"></script>
 {% endblock %}    

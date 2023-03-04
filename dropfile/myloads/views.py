@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from user.models import photo as bd_photo
 from loadFile.models import files as bd_file
 from django.http import HttpResponse
+from django.db.models import F
 
 @csrf_protect
 def get_files(request):
@@ -32,3 +33,19 @@ def delete_file(request, slug):
             return redirect('myFiles')
     else:
         return redirect('home')
+
+
+def change_accsses(request, slug, bool_type):
+    if request.user.is_authenticated:
+        try:
+            file=bd_file.objects.filter(slug=slug, userid=request.user)
+            if bool_type == 'True':
+                file.update(access=False)
+            elif bool_type == 'False':
+                file.update(access=True)
+        except:
+            pass
+        finally:
+            return redirect('myFiles')
+    else:
+        return redirect('login')

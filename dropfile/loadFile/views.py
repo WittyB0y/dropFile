@@ -53,18 +53,24 @@ class loadFile(ListView):
         return context
 
     def get_queryset(self, *args, **kwargs):
-        data = files.objects.filter(slug=self.kwargs['slug']).update(seen=F('seen') + 1)
-        if data < 1:
+        data = files.objects.filter(slug=self.kwargs['slug'], access=False)
+        if len(data) < 1:
             raise Http404
-        return files.objects.filter(slug=self.kwargs['slug'])
+        else:
+            data.update(seen=F('seen') + 1)
+            return data
 
 
 def download_file(request, slugy):
     try:
         uploaded_file = files.objects.get(slug=slugy)
-        files.objects.filter(slug=slugy).update(downloded=F('downloded') + 1)
-        file_path = uploaded_file.file.path
-        return serve(request, os.path.basename(file_path), os.path.dirname(file_path))
+        print(type(uploaded_file.access), type(uploaded_file.userid.id),type(request.user.id))
+        if (uploaded_file.access == True and uploaded_file.userid.id == request.user.id) or (uploaded_file.access == False):
+            files.objects.filter(slug=slugy).update(downloded=F('downloded') + 1)
+            file_path = uploaded_file.file.path
+            return serve(request, os.path.basename(file_path), os.path.dirname(file_path))
+        else:
+            raise Http404
     except files.DoesNotExist:
         raise Http404
 
