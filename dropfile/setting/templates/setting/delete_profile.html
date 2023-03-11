@@ -1,0 +1,17 @@
+{% block content %}
+  <h2>Delete Profile</h2>
+  <p>Are you sure you want to delete your profile?</p>
+  <form method="post">
+    {% csrf_token %}
+    <div>
+      <label for="password">Confirm password:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Delete Profile</button>
+  </form>
+{% endblock %}
+
+
+
+
+

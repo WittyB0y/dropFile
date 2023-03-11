@@ -120,7 +120,7 @@
         <button class="del files" onclick="modal()">
           Удалить все загруженные файлы
         </button>
-        <button class="del profile" onclick="modal()">
+        <button class="del profile" onclick="deleter()">
           Удалить профиль
         </button>
       </div>
@@ -128,6 +128,10 @@
   </div>
 
   <script>
+    function deleter(){
+    modal()
+    window.location.href = "{% url 'delete_profile' pk=request.user.id %}"
+  }
     function modal(value = true) {
       let modal = document.getElementById('modal');
 
@@ -137,7 +141,9 @@
       } else {
         console.log(false);
         modal.style.display = 'none';
+        deleteProfile(modal)
       }
     }
+
   </script>
 {% endblock %}
