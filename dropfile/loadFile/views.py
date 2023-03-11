@@ -13,43 +13,6 @@ from django.views.decorators.csrf import csrf_protect
 from user.models import photo as bd_photo
 from datetime import datetime
 
-# @csrf_protect
-# def load_data(request):
-#     id = request.user.id
-#     # print(db.updated_at.timestamp())
-#     if request.user.is_authenticated:
-#         try:
-#             db = files.objects.latest('id')
-#             photo = bd_photo.objects.get(userid=request.user)
-#         except bd_photo.DoesNotExist:
-#             photo = {'photo':'media/users/mainphoto/catty.jpg'}
-#         except:
-#             db = 'Загрузок ещё не было...'
-#         if request.method == 'POST' and request.FILES:
-#             uploaded_file = request.FILES['file']
-#             fs = FileSystemStorage()
-#             slug = uuid.uuid4()
-#             data_type = str(uploaded_file)[str(uploaded_file).rfind('.'):]
-#             filename = fs.save(f'{slug}{data_type}', uploaded_file)
-#             from_user = request.META
-#             uploaded_file_obj = files.objects.create(
-#                 file=filename,
-#                 name=uploaded_file.name,
-#                 content_type=uploaded_file.content_type,
-#                 configdata=from_user['HTTP_USER_AGENT'],
-#                 ipdata=from_user['REMOTE_ADDR'],
-#                 slug=slug,
-#                 userid=request.user,
-#             )
-#             return redirect(f'/{uploaded_file_obj.slug}')
-#     data = {
-#         'lastdata': db, 
-#         'title': 'Файлообменник | Главная', 
-#         'photo':photo, 
-
-#         }
-#     return render(request, 'loadFile/file_upload.html', context=data)
-
 @method_decorator(csrf_protect, name='dispatch')
 class LoadDataView(View):
 

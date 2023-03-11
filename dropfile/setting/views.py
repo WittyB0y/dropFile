@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import DetailView
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm, ReadOnlyPasswordHashField
-from django.shortcuts import render, redirect, HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormView
@@ -13,10 +12,12 @@ from .forms import EditUserForm
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponseBadRequest
+from user.models import photo as bd_photo
+from loadFile.models import files as bd_file
 
 @method_decorator(csrf_protect, name='dispatch')
 class settingData(DetailView):
@@ -24,8 +25,12 @@ class settingData(DetailView):
     template_name = 'setting/setting.html'
 
     def get(self, request, pk):
+        try:
+            photo = bd_photo.objects.get(userid=request.user.id)
+        except bd_photo.DoesNotExist:
+            photo = {'photo':'media/users/mainphoto/catty.jpg'}
         if request.user.is_authenticated and pk == request.user.id:
-            return render(request, 'setting/setting.html')
+            return render(request, 'setting/setting.html', {'photo':photo})
         else:
             if not request.user.is_authenticated:
                 return redirect('login')
@@ -38,6 +43,10 @@ class settingData(DetailView):
 @csrf_protect
 @login_required
 def delete_profile(request, pk):
+    try:
+        photo = bd_photo.objects.get(userid=request.user.id)
+    except bd_photo.DoesNotExist:
+        photo = {'photo':'media/users/mainphoto/catty.jpg'}
     if request.method == 'POST':
         password = request.POST['password']
         user = authenticate(request=request, username=request.user.username, password=password)
@@ -48,7 +57,28 @@ def delete_profile(request, pk):
         else:
             return HttpResponseBadRequest('Invalid password')
     else:
-        return render(request, 'setting/delete_profile.html')
+        return render(request, 'setting/delete_profile.html', context={'photo':photo})
+
+
+@csrf_protect
+@login_required
+def delete_all_files(request, pk):
+    try:
+        photo = bd_photo.objects.get(userid=request.user.id)
+    except bd_photo.DoesNotExist:
+        photo = {'photo':'media/users/mainphoto/catty.jpg'}
+    if request.method == 'POST':
+        password = request.POST['password']
+        user = authenticate(request=request, username=request.user.username, password=password)
+        if user is not None:
+            files = iter(bd_file.objects.filter(userid=request.user.id))
+            for file in files:
+                file.delete()
+            return redirect('settings', pk=request.user.id)
+        else:
+            return HttpResponseBadRequest('Invalid password')
+    else:
+        return render(request, 'setting/delete_files.html', context={'photo':photo})
 
 @csrf_protect
 def change_password(request, pk):
@@ -72,7 +102,8 @@ def change_password(request, pk):
         if request.user.is_authenticated:
             return redirect('settings', pk=request.user.id)
         return redirect('login')
-    
+
+
 class changeDetails(LoginRequiredMixin, FormView):
     form_class = EditUserForm
     template_name = 'setting/change_details.html'

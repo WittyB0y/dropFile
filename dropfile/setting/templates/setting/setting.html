@@ -20,8 +20,8 @@
         </p>
 
         <div class="deleteData">
-          <button class="del files">Удалить все загруженные файлы</button>
-          <button class="del profile">Удалить профиль</button>
+          <button class="del files" onclick="deleter(`{% url 'delete_file' pk=request.user.id %}`)">Удалить все загруженные файлы</button>
+          <button class="del profile" onclick="deleter(`{% url 'delete_profile' pk=request.user.id %}`)">Удалить профиль</button>
         </div>
       </div>
     </div>
@@ -110,17 +110,19 @@
             </button>
           </div>
         </div>
-
         <div class="userData__field accessField">
-          <input type="checkbox" name="access" id="access" />
-          <label for="access">Доступ через клинет</label>
+          <form method="post">
+            {% csrf_token %}
+            <input type="checkbox" name="access" id="access" />
+            <button type="submit">Доступ через клиент</button>
+          </form>
         </div>
       </div>
       <div class="deleteData">
         <button class="del files" onclick="modal()">
           Удалить все загруженные файлы
         </button>
-        <button class="del profile" onclick="deleter()">
+        <button class="del profile" onclick="modal()">
           Удалить профиль
         </button>
       </div>
@@ -128,9 +130,9 @@
   </div>
 
   <script>
-    function deleter(){
+    function deleter(url){
     modal()
-    window.location.href = "{% url 'delete_profile' pk=request.user.id %}"
+    window.location.href = url
   }
     function modal(value = true) {
       let modal = document.getElementById('modal');
