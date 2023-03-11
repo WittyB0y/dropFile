@@ -2,7 +2,7 @@
 {% load static %}
 {% block css_content %}
 <link rel="stylesheet" href="{% static 'setting/css/settings.css' %}" />
-<link rel="stylesheet" href="{% static 'loadFile/css/loadpage.css' %}">
+<!-- <link rel="stylesheet" href="{% static 'loadFile/css/loadpage.css' %}"> -->
 <link type="text/css" href="{% static 'loadFile/css/lawContent.css' %}" rel="stylesheet"/>
 <link rel="stylesheet" href="{% static 'loadFile/css/menuBar.css' %}">
 {% endblock %}
@@ -69,11 +69,10 @@
       <div class="userData">
         <!-- TODO -->
         <!-- В поле value у каждого инпута вставь нужное значение -->
-
         <div class="userData__field">
           Имя
           <div class="textHandler">
-            <input type="text" value="Котик" /><button class="saveBtn">
+            <input type="text" value="{{object.first_name}}" /><button class="saveBtn">
               Сохранить
             </button>
           </div>
@@ -81,7 +80,7 @@
         <div class="userData__field">
           Фамилия
           <div class="textHandler">
-            <input type="text" value="Бобровник" /><button class="saveBtn">
+            <input type="text" value="{{object.last_name}}" /><button class="saveBtn">
               Сохранить
             </button>
           </div>
@@ -89,7 +88,7 @@
         <div class="userData__field">
           Логин
           <div class="textHandler">
-            <input type="text" value="kotik" /><button class="saveBtn">
+            <input type="text" value="{{object.username}}" /><button class="saveBtn">
               Сохранить
             </button>
           </div>
@@ -97,7 +96,7 @@
         <div class="userData__field">
           Адресс почты
           <div class="textHandler">
-            <input type="email" value="kotik@twotails.solution" /><button
+            <input type="email" value="{{object.email}}" /><button
               class="saveBtn">
               Сохранить
             </button>
@@ -106,7 +105,7 @@
         <div class="userData__field">
           Новый пароль
           <div class="textHandler">
-            <input type="password" value="Котик" /><button class="saveBtn">
+            <input type="password" value="{{object.password}}" /><button class="saveBtn">
               Сохранить
             </button>
           </div>
@@ -117,7 +116,6 @@
           <label for="access">Доступ через клинет</label>
         </div>
       </div>
-
       <div class="deleteData">
         <button class="del files" onclick="modal()">
           Удалить все загруженные файлы

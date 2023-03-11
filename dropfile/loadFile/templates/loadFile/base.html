@@ -19,7 +19,7 @@
                 <a href="{% url 'myFiles' %}">Мои файлы</a>
                 <a href="{% url 'home' %}">Загруить</a>
                 <a href="#">Приглашения</a>
-                <a href="#">Настройки</a>
+                <a href="{% url 'settings' pk=request.user.id %}" >Настройки</a>
             </div>
         </div>
         <strong>|</strong>
@@ -38,4 +38,5 @@
     <a href="https://github.com/WittyB0y" target="_blank"><img src="{% static 'loadFile/images/gitHub.png' %}"></a>
 </div>
 </body>
+<script type="text/javascript" defer src="{% static 'loadFile/js/time.js' %}"></script>
 </html>
