@@ -3,3 +3,4 @@ media
 venv
 VENV
 *.txt
+.idea

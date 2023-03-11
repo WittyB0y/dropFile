@@ -1,16 +1,24 @@
 {% extends 'loadFile/files_list.html' %}
 {% load static %}
+{% block css_content %}
+<link rel="stylesheet" href="{% static 'setting/css/del_profile.css' %}">
+{% endblock %}
 {% block content %}
-  <h2>Delete Profile</h2>
-  <p>Are you sure you want to delete your profile?</p>
+<div class="elemDelPage">
+  <h1>Удаление аккаунта</h1>
+  <img class="userPhotoBig" src="{% url 'home' %}{{photo.photo}}" alt="photo">
+  <h2>{{username}}</h2>
+  <h3>Дата регистрации: {{date}}</h3>
+  <p>Ты уверен, что хочешь удалить аккаунт и все ранее загруженные файлы?<br>Для подтверждения удаления, введи пароль и нажми на кнопку "Удалить аккаунт"</p>
   <form method="post">
     {% csrf_token %}
-    <div>
-      <label for="password">Confirm password:</label>
+    <div class="elementsDelete">
+      <label for="password">Пароль:</label>
       <input type="password" id="password" name="password" required>
     </div>
-    <button type="submit">Delete Profile</button>
+    <button type="submit">Удалить аккаунт</button>
   </form>
+</div>
 {% endblock %}
 
 
