@@ -43,13 +43,15 @@ class settingData(DetailView):
 @csrf_protect
 @login_required
 def delete_profile(request, pk):
+    username = request.user.username
+    date = User.objects.get(id=request.user.id).date_joined
     try:
         photo = bd_photo.objects.get(userid=request.user.id)
     except bd_photo.DoesNotExist:
         photo = {'photo':'media/users/mainphoto/catty.jpg'}
     if request.method == 'POST':
         password = request.POST['password']
-        user = authenticate(request=request, username=request.user.username, password=password)
+        user = authenticate(request=request, username=username, password=password)
         if user is not None:
             user.delete()
             logout(request)
@@ -57,7 +59,7 @@ def delete_profile(request, pk):
         else:
             return HttpResponseBadRequest('Invalid password')
     else:
-        return render(request, 'setting/delete_profile.html', context={'photo':photo})
+        return render(request, 'setting/delete_profile.html', context={'photo':photo, 'username':username, 'date':date})
 
 
 @csrf_protect
