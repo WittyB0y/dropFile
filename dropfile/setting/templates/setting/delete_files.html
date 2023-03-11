@@ -1,16 +1,18 @@
 {% extends 'loadFile/files_list.html' %}
 {% load static %}
 {% block content %}
-  <h2>Delete Profile</h2>
-  <p>Are you sure you want to delete your profile?</p>
+<div>
+  <h2>Удаление всех захруженных файлов</h2>
+  <p>Вы уверены, что хотите удалить все файлы?</p>
   <form method="post">
     {% csrf_token %}
     <div>
       <label for="password">Confirm password:</label>
       <input type="password" id="password" name="password" required>
     </div>
-    <button type="submit">Delete Profile</button>
+    <button type="submit">Удалить все файлы</button>
   </form>
+</div>
 {% endblock %}
 
 
