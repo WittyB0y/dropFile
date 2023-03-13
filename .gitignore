@@ -4,3 +4,5 @@ venv
 VENV
 *.txt
 .idea
+venv
+source

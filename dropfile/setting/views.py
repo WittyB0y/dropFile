@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormView
-from .forms import EditUserForm
+from .forms import EditUserForm, EditUserPhoto
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
@@ -18,6 +18,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseBadRequest
 from user.models import photo as bd_photo
 from loadFile.models import files as bd_file
+from django.core.files.storage import FileSystemStorage
+import uuid
 
 @method_decorator(csrf_protect, name='dispatch')
 class settingData(DetailView):
@@ -121,3 +123,24 @@ class changeDetails(LoginRequiredMixin, FormView):
                 last_name=self.request.POST.get('last_name')
                 )
         return super().form_valid(form)
+
+
+@csrf_protect
+@login_required
+def change_photo(request, pk):
+    form = EditUserPhoto(request.POST, request.FILES)
+    data = {'form':form}
+    try:
+        photo = bd_photo.objects.filter(userid=request.user.id)
+    except:
+        photo = {'photo':'media/users/mainphoto/catty.jpg'}
+    data['photo'] = photo
+    if request.method == 'POST' and request.FILES:
+        if form.is_valid:
+            uploaded_file = request.FILES['image']
+            fs = FileSystemStorage()
+            slug = uuid.uuid4()
+            data_type = str(uploaded_file)[str(uploaded_file).rfind('.'):]
+            filename = fs.save(f'users/{request.user.id}/{slug}{data_type}', uploaded_file)
+            photo.update(photo=f'media/{filename}')
+    return render(request, 'setting/change_photo.html', context=data)
