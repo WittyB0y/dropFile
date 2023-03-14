@@ -3,7 +3,7 @@ body {
     --blockBgColor: #7265656e;
   
     margin: 0;
-    overflow-x: hidden;
+    overflow-x: auto !important;
     background: linear-gradient(
       90deg,
       rgba(131, 58, 180, 1) 0%,

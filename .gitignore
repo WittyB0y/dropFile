@@ -1,9 +1,4 @@
 *.sqlite3
 media
 venv
-VENV
-*.txt
-.idea
-venv
-source
 

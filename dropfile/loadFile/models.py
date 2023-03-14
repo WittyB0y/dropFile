@@ -14,4 +14,10 @@ class files(models.Model):
     name = models.CharField(max_length=255)
     content_type = models.CharField(max_length=255)
     userid = models.ForeignKey(User, related_name="posts", on_delete=models.CASCADE)
-    access=models.BooleanField(default=False)
+    access = models.BooleanField(default=False)
+
+
+class dataCounter(models.Model):
+    allowedFiles = models.IntegerField(default=100, null=False)
+    amount_of_files=models.IntegerField(default=0, null=False)
+    userid=models.ForeignKey(User, on_delete=models.CASCADE)
