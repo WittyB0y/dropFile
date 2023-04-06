@@ -3,10 +3,6 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
 with open('dropfile/key.txt') as f:
     SECRET_KEY = f.read().strip()
 
@@ -15,9 +11,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,10 +18,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'loadFile.apps.LoadfileConfig',
     'user.apps.UserConfig',
     'myloads.apps.MyloadsConfig',
     'setting.apps.SettingConfig',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -62,9 +57,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'dropfile.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -72,9 +64,6 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -91,10 +80,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -109,19 +94,24 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 
-STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = []
-# STATIC_URL = '/static/'
+STATIC_URL = 'static/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES' : [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+      'rest_framework.permissions.IsAuthenticated',
+    ],
+}

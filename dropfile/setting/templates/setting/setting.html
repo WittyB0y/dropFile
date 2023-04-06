@@ -2,7 +2,7 @@
 {% load static %}
 {% block css_content %}
 <link rel="stylesheet" href="{% static 'setting/css/settings.css' %}" />
-<!-- <link rel="stylesheet" href="{% static 'loadFile/css/loadpage.css' %}"> -->
+{#<link rel="stylesheet" href="{% static 'loadFile/css/loadpage.css' %}"> #}
 <link type="text/css" href="{% static 'loadFile/css/lawContent.css' %}" rel="stylesheet"/>
 <link rel="stylesheet" href="{% static 'loadFile/css/menuBar.css' %}">
 {% endblock %}
@@ -36,9 +36,9 @@
               <p>Остаток:</p>
             </div>
             <div class="info">
-              <p>100</p>
-              <p>45</p>
-              <p>55</p>
+              <p>{{ countFile.allowedFiles }}</p>
+              <p>{{ countFile.amount_of_files }}</p>
+              <p>{{ total}}</p>
             </div>
           </div>
 
@@ -62,13 +62,11 @@
 
         <div class="loader">
           <div>Загрузка файлов</div>
-          <progress max="100" value="45"></progress>
+          <progress max="{{  countFile.allowedFiles }}" value="{{ countFile.amount_of_files }}"></progress>
         </div>
       </div>
 
       <div class="userData">
-        <!-- TODO -->
-        <!-- В поле value у каждого инпута вставь нужное значение -->
         <div class="userData__field">
           Имя
           <div class="textHandler">
