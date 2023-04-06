@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="278847ae-7df8-48dc-abef-68a7b06e4a50" name="Changes" comment="v4.4.2.3">
-      <change afterPath="$PROJECT_DIR$/dropfile/api/permissions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dropfile/api/serializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dropfile/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dropfile/dropfile/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/dropfile/dropfile/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dropfile/dropfile/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dropfile/dropfile/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dropfile/loadFile/templates/loadFile/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/dropfile/loadFile/templates/loadFile/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dropfile/loadFile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dropfile/loadFile/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dropfile/myloads/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dropfile/myloads/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dropfile/setting/templates/setting/setting.html" beforeDir="false" afterPath="$PROJECT_DIR$/dropfile/setting/templates/setting/setting.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dropfile/setting/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dropfile/setting/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +143,7 @@
       <workItem from="1680618899874" duration="2587000" />
       <workItem from="1680686675032" duration="1814000" />
       <workItem from="1680772891018" duration="366000" />
-      <workItem from="1680784455136" duration="9594000" />
+      <workItem from="1680784455136" duration="9928000" />
     </task>
     <task id="LOCAL-00001" summary="v4.4.2.3">
       <created>1678788643686</created>
