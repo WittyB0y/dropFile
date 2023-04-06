@@ -1,17 +1,18 @@
 import os
-import uuid
-from django.core.files.storage import FileSystemStorage
-from django.db.models import F
-from django.http import Http404
-from django.shortcuts import render, redirect
-from django.utils.decorators import method_decorator
-from django.views import View
-from django.views.decorators.csrf import csrf_protect
 from django.views.generic import ListView
-from django.views.static import serve
-from user.models import photo as bd_photo
-from .models import dataCounter as dc
 from .models import files
+from django.db.models import F
+from django.shortcuts import render, redirect
+from django.core.files.storage import FileSystemStorage
+import uuid
+from django.views import View
+from django.utils.decorators import method_decorator
+from django.views.static import serve
+from django.http import Http404
+from django.views.decorators.csrf import csrf_protect
+from user.models import photo as bd_photo
+from datetime import datetime
+from .models import dataCounter as dc
 
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -53,14 +54,16 @@ class LoadDataView(View):
                 slug=slug,
                 userid=request.user,
             )
-            user = dc.objects.filter(userid=request.user.id)
-            if len(user) < 1:
+            try:
+                user = dc.objects.get(userid=request.user.id)
+            except dc.DoesNotExist:
                 dc.objects.create(
                     allowedFiles=100,
                     amount_of_files=0,
                     userid=request.user
                 )
-            user.update(amount_of_files=F('amount_of_files') + 1)
+            finally:
+                dc.objects.filter(userid=request.user.id).update(amount_of_files=F('amount_of_files') +1)
             return redirect(f'/{uploaded_file_obj.slug}')
         return redirect('home')
 

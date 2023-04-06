@@ -5,7 +5,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('myloads/', include('myloads.urls')),
     path('settings/', include('setting.urls')),
-    path('api/v1/', include('api.urls')),
     path('', include('user.urls')),
     path('', include('loadFile.urls')),
 ]
