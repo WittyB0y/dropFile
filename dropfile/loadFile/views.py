@@ -1,17 +1,18 @@
 import os
-from django.views.generic import ListView
-from .models import files
-from django.db.models import F
-from django.shortcuts import render, redirect
-from django.core.files.storage import FileSystemStorage
 import uuid
-from django.views import View
-from django.utils.decorators import method_decorator
-from django.views.static import serve
+from django.core.files.storage import FileSystemStorage
+from django.db.models import F
 from django.http import Http404
+from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
+from django.views import View
 from django.views.decorators.csrf import csrf_protect
+from django.views.generic import ListView
+from django.views.static import serve
 from user.models import photo as bd_photo
-from datetime import datetime
+from .models import dataCounter as dc
+from .models import files
+
 
 @method_decorator(csrf_protect, name='dispatch')
 class LoadDataView(View):
@@ -23,19 +24,17 @@ class LoadDataView(View):
             print(e)
             db = 'Загрузок ещё не было'
         data = {
-                'lastdata': db, 
-                'title': 'Файлообменник | Главная', 
-            }
+            'lastdata': db,
+            'title': 'Файлообменник | Главная',
+        }
         if request.user.is_authenticated:
             try:
                 photo = bd_photo.objects.get(userid=request.user)
             except bd_photo.DoesNotExist:
-                photo = {'photo':'media/users/mainphoto/catty.jpg'}
+                photo = {'photo': 'media/users/mainphoto/catty.jpg'}
             data['photo'] = photo
             return render(request, 'loadFile/file_upload.html', context=data)
         return render(request, 'loadFile/file_upload.html', context=data)
-        
-        
 
     def post(self, request):
         if request.method == 'POST' and request.FILES and request.user.is_authenticated:
@@ -46,18 +45,24 @@ class LoadDataView(View):
             filename = fs.save(f'{slug}{data_type}', uploaded_file)
             from_user = request.META
             uploaded_file_obj = files.objects.create(
-                    file=filename,
-                    name=uploaded_file.name,
-                    content_type=uploaded_file.content_type,
-                    configdata=from_user['HTTP_USER_AGENT'],
-                    ipdata=from_user['REMOTE_ADDR'],
-                    slug=slug,
-                    userid=request.user,
+                file=filename,
+                name=uploaded_file.name,
+                content_type=uploaded_file.content_type,
+                configdata=from_user['HTTP_USER_AGENT'],
+                ipdata=from_user['REMOTE_ADDR'],
+                slug=slug,
+                userid=request.user,
+            )
+            user = dc.objects.filter(userid=request.user.id)
+            if len(user) < 1:
+                dc.objects.create(
+                    allowedFiles=100,
+                    amount_of_files=0,
+                    userid=request.user
                 )
+            user.update(amount_of_files=F('amount_of_files') + 1)
             return redirect(f'/{uploaded_file_obj.slug}')
         return redirect('home')
-
-
 
 
 class loadFile(ListView):
@@ -71,7 +76,7 @@ class loadFile(ListView):
             try:
                 photo = bd_photo.objects.get(userid=self.request.user)
             except bd_photo.DoesNotExist:
-                photo = {'photo':'media/users/mainphoto/catty.jpg'}
+                photo = {'photo': 'media/users/mainphoto/catty.jpg'}
             context['photo'] = photo
         return context
 
@@ -89,8 +94,9 @@ class loadFile(ListView):
 def download_file(request, slugy):
     try:
         uploaded_file = files.objects.get(slug=slugy)
-        print(type(uploaded_file.access), type(uploaded_file.userid.id),type(request.user.id))
-        if (uploaded_file.access == True and uploaded_file.userid.id == request.user.id) or (uploaded_file.access == False):
+        print(type(uploaded_file.access), type(uploaded_file.userid.id), type(request.user.id))
+        if (uploaded_file.access == True and uploaded_file.userid.id == request.user.id) or (
+                uploaded_file.access == False):
             files.objects.filter(slug=slugy).update(downloded=F('downloded') + 1)
             file_path = uploaded_file.file.path
             return serve(request, os.path.basename(file_path), os.path.dirname(file_path))
@@ -110,7 +116,7 @@ class myfiles(ListView):
         try:
             photo = bd_photo.objects.get(userid=self.request.user)
         except bd_photo.DoesNotExist:
-            photo = {'photo':'media/users/mainphoto/catty.jpg'}
+            photo = {'photo': 'media/users/mainphoto/catty.jpg'}
         context['photo'] = photo
         return context
 

@@ -1,11 +1,7 @@
-from django.shortcuts import render
-from django.contrib.auth.models import User
 from django.views.generic import DetailView
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormView
 from .forms import EditUserForm, EditUserPhoto
@@ -18,8 +14,10 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseBadRequest
 from user.models import photo as bd_photo
 from loadFile.models import files as bd_file
+from loadFile.models import dataCounter
 from django.core.files.storage import FileSystemStorage
 import uuid
+
 
 @method_decorator(csrf_protect, name='dispatch')
 class settingData(DetailView):
@@ -27,21 +25,26 @@ class settingData(DetailView):
     template_name = 'setting/setting.html'
 
     def get(self, request, pk):
+        data = {}
         try:
             photo = bd_photo.objects.get(userid=request.user.id)
         except bd_photo.DoesNotExist:
-            photo = {'photo':'media/users/mainphoto/catty.jpg'}
+            photo = {'photo': 'media/users/mainphoto/catty.jpg'}
+        data['photo'] = photo
         if request.user.is_authenticated and pk == request.user.id:
-            return render(request, 'setting/setting.html', {'photo':photo})
+            countFile = dataCounter.objects.get(userid=request.user.id)
+            data['countFile'] = countFile
+            data['total'] = countFile.allowedFiles - countFile.amount_of_files
+            return render(request, 'setting/setting.html', context=data)
         else:
             if not request.user.is_authenticated:
                 return redirect('login')
             return redirect('settings', pk=request.user.id)
 
-
     def get_queryset(self):
         return User.objects.filter(id=self.request.user.id)
-    
+
+
 @csrf_protect
 @login_required
 def delete_profile(request, pk):
@@ -50,7 +53,7 @@ def delete_profile(request, pk):
     try:
         photo = bd_photo.objects.get(userid=request.user.id)
     except bd_photo.DoesNotExist:
-        photo = {'photo':'media/users/mainphoto/catty.jpg'}
+        photo = {'photo': 'media/users/mainphoto/catty.jpg'}
     if request.method == 'POST':
         password = request.POST['password']
         user = authenticate(request=request, username=username, password=password)
@@ -61,7 +64,8 @@ def delete_profile(request, pk):
         else:
             return HttpResponseBadRequest('Invalid password')
     else:
-        return render(request, 'setting/delete_profile.html', context={'photo':photo, 'username':username, 'date':date})
+        return render(request, 'setting/delete_profile.html',
+                      context={'photo': photo, 'username': username, 'date': date})
 
 
 @csrf_protect
@@ -70,7 +74,7 @@ def delete_all_files(request, pk):
     try:
         photo = bd_photo.objects.get(userid=request.user.id)
     except bd_photo.DoesNotExist:
-        photo = {'photo':'media/users/mainphoto/catty.jpg'}
+        photo = {'photo': 'media/users/mainphoto/catty.jpg'}
     if request.method == 'POST':
         password = request.POST['password']
         user = authenticate(request=request, username=request.user.username, password=password)
@@ -82,12 +86,12 @@ def delete_all_files(request, pk):
         else:
             return HttpResponseBadRequest('Invalid password')
     else:
-        return render(request, 'setting/delete_files.html', context={'photo':photo})
+        return render(request, 'setting/delete_files.html', context={'photo': photo})
+
 
 @csrf_protect
 def change_password(request, pk):
-
-    if pk == request.user.id: 
+    if pk == request.user.id:
         if request.method == 'POST' and pk == request.user.id:
             form = PasswordChangeForm(request.user, request.POST)
             if form.is_valid():
@@ -111,17 +115,16 @@ def change_password(request, pk):
 class changeDetails(LoginRequiredMixin, FormView):
     form_class = EditUserForm
     template_name = 'setting/change_details.html'
-    model=User
+    model = User
     success_url = 'home'
-        
 
     def form_valid(self, form):
         if form.is_valid:
             data = User.objects.filter(id=self.request.user.id).update(
                 email=self.request.POST.get('email'),
-                first_name=self.request.POST.get('first_name'), 
+                first_name=self.request.POST.get('first_name'),
                 last_name=self.request.POST.get('last_name')
-                )
+            )
         return super().form_valid(form)
 
 
@@ -129,11 +132,11 @@ class changeDetails(LoginRequiredMixin, FormView):
 @login_required
 def change_photo(request, pk):
     form = EditUserPhoto(request.POST, request.FILES)
-    data = {'form':form}
+    data = {'form': form}
     try:
         photo = bd_photo.objects.filter(userid=request.user.id)
     except:
-        photo = {'photo':'media/users/mainphoto/catty.jpg'}
+        photo = {'photo': 'media/users/mainphoto/catty.jpg'}
     data['photo'] = photo
     if request.method == 'POST' and request.FILES:
         if form.is_valid:
