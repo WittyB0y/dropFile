@@ -29,12 +29,15 @@ class settingData(DetailView):
         try:
             photo = bd_photo.objects.get(userid=request.user.id)
         except bd_photo.DoesNotExist:
-            photo = {'photo': 'media/users/mainphoto/catty.jpg'}
+            photo = {'photo': 'media/users/mainphoto/user.jpg'}
         data['photo'] = photo
         if request.user.is_authenticated and pk == request.user.id:
-            countFile = dataCounter.objects.get(userid=request.user.id)
+            countFile = dataCounter.objects.filter(userid=request.user.id)
             data['countFile'] = countFile
-            data['total'] = countFile.allowedFiles - countFile.amount_of_files
+            try:
+                data['total'] = countFile.allowedFiles - countFile.amount_of_files
+            except AttributeError:
+                data['total'] = 100
             return render(request, 'setting/setting.html', context=data)
         else:
             if not request.user.is_authenticated:
@@ -53,7 +56,7 @@ def delete_profile(request, pk):
     try:
         photo = bd_photo.objects.get(userid=request.user.id)
     except bd_photo.DoesNotExist:
-        photo = {'photo': 'media/users/mainphoto/catty.jpg'}
+        photo = {'photo': 'media/users/mainphoto/user.jpg'}
     if request.method == 'POST':
         password = request.POST['password']
         user = authenticate(request=request, username=username, password=password)
@@ -74,7 +77,7 @@ def delete_all_files(request, pk):
     try:
         photo = bd_photo.objects.get(userid=request.user.id)
     except bd_photo.DoesNotExist:
-        photo = {'photo': 'media/users/mainphoto/catty.jpg'}
+        photo = {'photo': 'media/users/mainphoto/user.jpg'}
     if request.method == 'POST':
         password = request.POST['password']
         user = authenticate(request=request, username=request.user.username, password=password)
@@ -136,7 +139,7 @@ def change_photo(request, pk):
     try:
         photo = bd_photo.objects.filter(userid=request.user.id)
     except:
-        photo = {'photo': 'media/users/mainphoto/catty.jpg'}
+        photo = {'photo': 'media/users/mainphoto/user.jpg'}
     data['photo'] = photo
     if request.method == 'POST' and request.FILES:
         if form.is_valid:

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'loadFile/css/newMainPage.css' %}">
+</head>
+<body>
+<div class="containerMainBtn">
+    <div>
+        <button class="mainBtn" id="mainLogin">Войти</button>
+    </div>
+    <div>
+        <button class="mainBtn" id="mainReg">Регистрация</button>
+    </div>
+    <div>
+        <button class="mainBtn" id="mainNews" onclick="funcOpenLinck(`{% url 'news'%}`)">Новости</button>
+    </div>
+    <div>
+        <button class="mainBtn" id="mainAbout">О проекте</button>
+    </div>
+</div>
+<script>
+    const funcOpenLinck = (url) => {
+        window.open(url)
+    }
+</script>
+</body>
+</html>

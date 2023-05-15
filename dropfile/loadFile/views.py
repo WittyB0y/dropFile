@@ -1,8 +1,9 @@
 import os
 import uuid
+from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.db.models import F
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -10,6 +11,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic import ListView
 from django.views.static import serve
 from user.models import photo as bd_photo
+from .forms import AddUserAccess, UserAccess
 from .models import dataCounter as dc
 from .models import files
 
@@ -31,7 +33,7 @@ class LoadDataView(View):
             try:
                 photo = bd_photo.objects.get(userid=request.user)
             except bd_photo.DoesNotExist:
-                photo = {'photo': 'media/users/mainphoto/catty.jpg'}
+                photo = {'photo': 'media/users/mainphoto/user.jpg'}
             data['photo'] = photo
             return render(request, 'loadFile/file_upload.html', context=data)
         return render(request, 'loadFile/file_upload.html', context=data)
@@ -61,7 +63,7 @@ class LoadDataView(View):
                     userid=request.user
                 )
             user.update(amount_of_files=F('amount_of_files') + 1)
-            return redirect(f'/{uploaded_file_obj.slug}')
+            return redirect(f'/media/{uploaded_file_obj.slug}')
         return redirect('home')
 
 
@@ -76,7 +78,7 @@ class loadFile(ListView):
             try:
                 photo = bd_photo.objects.get(userid=self.request.user)
             except bd_photo.DoesNotExist:
-                photo = {'photo': 'media/users/mainphoto/catty.jpg'}
+                photo = {'photo': 'media/users/mainphoto/user.jpg'}
             context['photo'] = photo
         return context
 
@@ -116,7 +118,7 @@ class myfiles(ListView):
         try:
             photo = bd_photo.objects.get(userid=self.request.user)
         except bd_photo.DoesNotExist:
-            photo = {'photo': 'media/users/mainphoto/catty.jpg'}
+            photo = {'photo': 'media/users/mainphoto/user.jpg'}
         context['photo'] = photo
         return context
 
@@ -125,5 +127,46 @@ class myfiles(ListView):
             return files.objects.filter(userid=self.request.user)
 
 
+@login_required
+def addUserAccess(request):
+    if request.method == 'POST':
+        form = AddUserAccess(request.POST, userid=request.user)
+        if form.is_valid():
+            try:
+                form.save()
+                print(request.POST['fileid'][0])
+            except Exception as e:
+                print(e)
+                form.add_error(None, 'Ошибка')
+    else:
+        form = AddUserAccess(userid=request.user)
+    return render(request, 'loadFile/addUserAccess.html', {'form': form})
+
+
+@login_required
+def UserAccesss(request):
+    if request.method == 'POST':
+        form = UserAccess(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+            except Exception as e:
+                print(e)
+                form.add_error(None, 'Ошибка')
+    else:
+        form = UserAccess()
+    return render(request, 'loadFile/UserAccess.html', {'form': form})
+
+
+def say_hi(request):
+    return HttpResponse('ok')
+
+
 def error_404_view(request, exception):
     return render(request, 'loadFile/404.html', status=404)
+
+
+class newMainPage(ListView):
+    """main page"""
+    def get(self, request):
+        return render(request, 'loadFile/newBase.html')

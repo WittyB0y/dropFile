@@ -1,0 +1,54 @@
+:root {
+    --colorBtn: rgba(50,116,155,0.36);
+    --backGround: rgba(39,108,114,0.76);
+    --green: #0bca62;
+    --yellow: #fbd737;
+    --orange: #fa7060;
+    --purple: #7f6cd3;
+}
+
+body {
+    overflow: hidden;
+    background: var(--backGround);
+}
+
+.containerMainBtn {
+    width: 100%;
+    height: 97.5vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.mainBtn {
+    margin: 0.7%;
+    border-radius: 0.5rem;
+    width: 90%;
+    border: none;
+    font-size: 22px;
+    color: black;
+    padding: 0.5rem 0;
+}
+
+#mainLogin {
+    width: 60vw;
+    background: var(--green);
+}
+
+#mainReg {
+    width: 60vw;
+    background: var(--yellow);
+}
+
+#mainNews {
+    width: 60vw;
+    background: var(--orange);
+}
+
+#mainAbout {
+    width: 60vw;
+    background: var(--purple);
+}

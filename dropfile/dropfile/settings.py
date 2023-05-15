@@ -9,7 +9,7 @@ with open('dropfile/key.txt') as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.1:8000',  'localhost', 'localhost:19006', '192.168.31.78', '26.242.229.65', '26.242.229.65:8000', '26.242.229.65', '192.168.64.223']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -19,7 +19,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'corsheaders',
     'loadFile.apps.LoadfileConfig',
+    'news.apps.NewsConfig',
     'user.apps.UserConfig',
     'myloads.apps.MyloadsConfig',
     'setting.apps.SettingConfig',
@@ -27,6 +31,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -35,6 +40,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# if DEBUG == True:
+#     MIDDLEWARE.append('dropfile.cors.CorsMiddleware')
+#     print(MIDDLEWARE)
 
 ROOT_URLCONF = 'dropfile.urls'
 
@@ -82,23 +91,19 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
-MEDIA_URL = 'media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#
+# MEDIA_URL = 'media/'
 
 STATIC_URL = 'static/'
 
@@ -111,7 +116,10 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-      'rest_framework.permissions.IsAuthenticated',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
     ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #   'rest_framework.permissions.IsAuthenticated',
+    # ],
 }
