@@ -23,7 +23,7 @@ class filesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = files
-        fields = ('slug', 'createdAt', 'downloded', 'seen', 'file', 'name', 'content_type', 'userid', 'access')
+        fields = ('id', 'slug', 'createdAt', 'downloded', 'seen', 'file', 'name', 'content_type', 'userid', 'access')
 
 
 class PhotoSerializer(serializers.ModelSerializer):
@@ -45,9 +45,39 @@ class FileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = files
-        # , 'userid'
 
         fields = ('name', 'userid',)
+
+
+# class FileSerializerLoads(serializers.ModelSerializer):
+#     lookingSeeUsers = serializers.SerializerMethodField()
+#
+#     def get_lookingSeeUsers(self, obj):
+#         return UserSerializer(obj.lookingSeeUsers.all(), many=True).data
+#
+#     class Meta:
+#         model = FileAccess
+#         fields = ('id', 'lookingSeeUsers', 'createdAt', 'existBefore', 'seenUser', 'webSee', 'userSeeClient', 'amount', 'fileid')
+
+class FileSerializerLoads(serializers.ModelSerializer):
+    lookingSeeUsers = serializers.SerializerMethodField()
+
+    def get_lookingSeeUsers(self, obj):
+        users = obj.lookingSeeUsers.all()
+        user_data = []
+        for user_obj in users:
+            photo_url = user_obj.photo.photo.url
+            user_data.append({
+                'id': user_obj.id,
+                'username': user_obj.username,
+                'photo_url': photo_url
+            })
+        return user_data
+
+    class Meta:
+        model = FileAccess
+        fields = ('id', 'lookingSeeUsers', 'createdAt', 'existBefore', 'seenUser', 'webSee', 'userSeeClient', 'amount', 'fileid')
+
 
 
 class FileAccessSerializer(serializers.ModelSerializer):

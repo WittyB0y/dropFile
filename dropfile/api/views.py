@@ -1,21 +1,23 @@
+import datetime
 import os
 import uuid
+
+import pytz
 from django.db.models import Prefetch, Q
 from django.http import HttpResponse
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import viewsets
-
+from loadFile.models import files, FileAccess
 from .bill import extract_zip_file
 from .models import idPhone
 from .serializer import filesSerializer, userdata, myUploadedFiles, UserSerializer, idPhoneSerializer, \
-    serializerNews, PhotoSerializer, RenderDataSerializer, FileAccessSerializer, DataUploadFiles, FileSerializerUPLOAD
+    serializerNews, PhotoSerializer, RenderDataSerializer, FileAccessSerializer, DataUploadFiles, FileSerializerUPLOAD, \
+     FileSerializerLoads
 from rest_framework import generics, status
 from user.models import photo
 from django.contrib.auth.models import User as user
-from loadFile.models import files, FileAccess, renderData
+from loadFile.models import files, FileAccess
 from news.models import news
-
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -35,18 +37,44 @@ def upload_file(request):
         with open('media/data/' + new_name, 'wb') as f:
             f.write(uploaded_file.read())
         created_obj = files.objects.create(
-                file=new_name,
-                name=uploaded_file.name,
-                content_type=uploaded_file.content_type,
-                ipdata='127.0.0.1',
-                slug=uuid.uuid4(),
-                userid=request.user,
-            )
+            file=new_name,
+            name=uploaded_file.name,
+            content_type=uploaded_file.content_type,
+            ipdata='127.0.0.1',
+            slug=uuid.uuid4(),
+            userid=request.user,
+        )
         extract_zip_file(f'media/data/{new_name}', request.user, created_obj.id)
     else:
         return HttpResponse('Файл должен быть с расширением .zip')
 
     return Response({'success': True}, status=status.HTTP_201_CREATED)
+
+
+# @csrf_exempt
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def insertPermission(request):
+    dataPost = request.data
+    if request.method == 'POST':
+
+        try:
+            user1 = user.objects.get(username=dataPost['user'])
+            file = files.objects.get(id=dataPost['fileid'], userid=request.user.id)
+            new_time = datetime.datetime.now(pytz.utc) + datetime.timedelta(minutes=int(dataPost['time']))
+            files_access = FileAccess.objects.create(fileid=file, existBefore=new_time)
+            files_access.lookingSeeUsers.set([user1])
+            files_access.save()
+            return Response({'success': 'Права доступа успешно добавлены.'}, status=status.HTTP_201_CREATED)
+        except user.DoesNotExist:
+            return Response({'error': 'Пользователь не найден.'}, status=status.HTTP_400_BAD_REQUEST)
+        except files.DoesNotExist:
+            return Response({'error': 'Файл не найден.'}, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'GET':
+        file_id = request.headers.get('Fileid')
+        file_access = FileAccess.objects.filter(fileid=file_id)
+        serializer = FileSerializerLoads(file_access, many=True)
+        return Response(serializer.data)
 
 
 class newsAPI(generics.ListAPIView):
@@ -60,7 +88,7 @@ class filesAPIList(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return files.objects.filter(userid=self.request.user)
+        return files.objects.filter(userid=self.request.user).order_by('-id')
 
 
 class filesAPIUpdate(generics.RetrieveUpdateAPIView):
@@ -79,7 +107,6 @@ class getProfilePhotoURL(generics.ListAPIView):
 
     def get_queryset(self):
         data = photo.objects.filter(userid=self.request.user)
-        print(data)
         return data
 
 

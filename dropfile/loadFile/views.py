@@ -13,7 +13,7 @@ from django.views.static import serve
 from user.models import photo as bd_photo
 from .forms import AddUserAccess, UserAccess
 from .models import dataCounter as dc
-from .models import files
+from .models import files, FileAccess
 
 
 @method_decorator(csrf_protect, name='dispatch')

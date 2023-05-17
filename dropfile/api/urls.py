@@ -9,6 +9,7 @@ router.register(r'update_profile_photo', ImageUploadView, basename='photo')
 
 urlpatterns = [
     path('loadfiles/', upload_file),
+    path('createpermissons/', insertPermission),
     path('sharedfiles/', FileAccessList.as_view()),
     path('files/', filesAPIList.as_view()),
     path('update/<int:pk>/', filesAPIUpdate.as_view()),
